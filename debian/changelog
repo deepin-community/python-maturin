@@ -1,3 +1,23 @@
+python-maturin (1.8.3-1deepin1) unstable; urgency=medium
+
+  * Relax and port to the crate set available in UOS 25
+    - Relax 15 Cargo.toml version constraints to the crate versions shipped
+      in UOS 25: cargo_metadata 0.15.4, goblin 0.7.1, zip 0.6.6,
+      thiserror 1.0.59, fs-err 2.11.0, fs4 0.8.4, which 4.2.5,
+      minijinja 1.0.3, pep440_rs 0.6.6, pep508_rs 0.6.1,
+      pyproject-toml 0.11.0, python-pkginfo 0.6.3, semver 1.0.21,
+      fat-macho 0.4.7, lddtree 0.3.3
+    - Port src/ back to the older APIs: cargo_metadata 0.15 CrateType and
+      TargetKind as plain strings, zip 0.6 FileOptions, pep440_rs 0.6 and
+      pep508_rs 0.6 marker handling, pyproject-toml 0.11 License/Contact API
+    - Build-depend on librust-unicode-xid-dev. UOS 25's community component
+      ships a stub "unicode-xid" package that satisfies the virtual
+      librust-unicode-xid-*dev provides without shipping the crate source,
+      so cargo cannot resolve unicode-xid when generating the offline
+      lockfile
+
+ -- lichenggang <lichenggang@uniontech.com>  Thu, 15 Oct 2026 16:29:26 +0800
+
 python-maturin (1.8.3-1) unstable; urgency=medium
 
   * Team upload.
