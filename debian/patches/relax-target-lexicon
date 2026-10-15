@@ -1,0 +1,24 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -71 +71 @@
+-target-lexicon = "0.13.0"
++target-lexicon = "0.12"
+--- a/src/build_context.rs
++++ b/src/build_context.rs
+@@ -1219,3 +1219,3 @@
+-                OperatingSystem::MacOSX(Some(deployment_target))
+-                | OperatingSystem::Darwin(Some(deployment_target)),
+-            ) => (deployment_target.major, u16::from(deployment_target.minor)),
++                OperatingSystem::MacOSX { major, minor, .. }
++                //| OperatingSystem::Darwin(Some(deployment_target)),
++            ) => (major, minor),
+--- a/src/target.rs
++++ b/src/target.rs
+@@ -255,2 +255,2 @@
+-            OperatingSystem::MacOSX(_) | OperatingSystem::Darwin(_) => Os::Macos,
+-            OperatingSystem::IOS(_) => Os::Ios,
++            OperatingSystem::MacOSX { .. } | OperatingSystem::Darwin => Os::Macos,
++            OperatingSystem::Ios => Os::Ios,
+@@ -267 +267 @@
+-            OperatingSystem::Hurd => Os::Hurd,
++            //OperatingSystem::Hurd => Os::Hurd,

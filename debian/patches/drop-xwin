@@ -1,0 +1,28 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -100,3 +100,2 @@
+ cargo-zigbuild = { version = "0.19.7", default-features = false, optional = true }
+-cargo-xwin = { version = "0.18.4", default-features = false, optional = true }
+ 
+@@ -175,3 +174,2 @@
+     "ureq?/tls",
+-    "cargo-xwin?/rustls-tls",
+     "dep:rustls-pemfile",
+@@ -181,3 +179,2 @@
+     "ureq?/native-tls",
+-    "cargo-xwin?/native-tls",
+     "dep:rustls-pemfile",
+@@ -186,5 +183,4 @@
+ # cross compile using zig or xwin
+-cross-compile = ["zig", "xwin"]
++cross-compile = ["zig"]
+ zig = ["cargo-zigbuild"]
+-xwin = ["cargo-xwin"]
+ 
+@@ -207,6 +203 @@
+ opt-level = 3
+-# Speedup cargo-xwin for debug builds
+-[profile.dev.package.cab]
+-opt-level = 3
+-[profile.dev.package.msi]
+-opt-level = 3

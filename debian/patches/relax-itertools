@@ -1,0 +1,7 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -76,3 +76,3 @@
+ ignore = "0.4.20"
+-itertools = "0.12.1"
++itertools = "0.13"
+ lddtree = "0.3.7"
