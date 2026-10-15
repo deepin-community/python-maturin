@@ -1,0 +1,13 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -96,3 +96,2 @@
+ ] }
+-clap_complete_command = { version = "0.6.1", optional = true }
+ 
+@@ -151,5 +150,3 @@
+ 
+-full = ["cli-completion", "scaffolding", "upload"]
+-
+-cli-completion = ["dep:clap_complete_command"]
++full = ["scaffolding", "upload"]
+ 

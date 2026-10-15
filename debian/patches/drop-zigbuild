@@ -1,0 +1,18 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -99,3 +99,2 @@
+ # cross compile
+-cargo-zigbuild = { version = "0.19.7", default-features = false, optional = true }
+ 
+@@ -152,3 +151,3 @@
+ 
+-full = ["cli-completion", "cross-compile", "scaffolding", "upload"]
++full = ["cli-completion", "scaffolding", "upload"]
+ 
+@@ -182,6 +181,2 @@
+ 
+-# cross compile using zig or xwin
+-cross-compile = ["zig"]
+-zig = ["cargo-zigbuild"]
+-
+ # project scaffolding

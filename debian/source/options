@@ -1,0 +1,2 @@
+# line endings are CRLF, otherwise the same
+extend-diff-ignore = "sysconfig/cpython-win-3\.7\.txt"

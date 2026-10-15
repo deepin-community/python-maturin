@@ -1,0 +1,7 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -47,3 +47,3 @@
+ cargo-options = "0.7.2"
+-cbindgen = { version = "0.28.0", default-features = false }
++cbindgen = { version = "0.27", default-features = false }
+ flate2 = "1.0.18"

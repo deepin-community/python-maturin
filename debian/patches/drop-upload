@@ -1,0 +1,64 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -108,26 +108,2 @@
+ 
+-# upload
+-bytesize = { version = "1.0.1", optional = true }
+-configparser = { version = "3.0.3", optional = true }
+-dirs = { version = "5.0.0", optional = true }
+-multipart = { version = "0.18.0", features = [
+-    "client",
+-], default-features = false, optional = true }
+-ureq = { version = "2.9.4", features = [
+-    "gzip",
+-    "json",
+-    "socks-proxy",
+-], default-features = false, optional = true }
+-native-tls = { version = "0.2.8", optional = true }
+-rustls = { version = "0.23", default-features = false, features = [
+-    "logging",
+-    "std",
+-    "tls12",
+-], optional = true }
+-rustls-pemfile = { version = "2.1.0", optional = true }
+-keyring = { version = "3", default-features = false, features = [
+-    "linux-no-secret-service",
+-], optional = true }
+-wild = { version = "2.1.0", optional = true }
+-
+ # JSON schema
+@@ -148,15 +124,5 @@
+ [features]
+-default = ["full", "rustls"]
+-
+-full = ["scaffolding", "upload"]
++default = ["full"]
+ 
+-upload = [
+-    "ureq",
+-    "multipart",
+-    "configparser",
+-    "bytesize",
+-    "dialoguer/password",
+-    "wild",
+-    "dep:dirs",
+-]
++full = ["scaffolding"]
+ 
+@@ -164,16 +130,2 @@
+ 
+-# keyring doesn't support *BSD so it's not enabled in `full` by default
+-password-storage = ["upload", "keyring"]
+-
+-rustls = [
+-    "dep:rustls",
+-    "ureq?/tls",
+-    "dep:rustls-pemfile",
+-]
+-native-tls = [
+-    "dep:native-tls",
+-    "ureq?/native-tls",
+-    "dep:rustls-pemfile",
+-]
+-
+ # project scaffolding

@@ -1,0 +1,5 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -115 +115 @@
+-fs4 = { version = "0.12.0", features = ["fs-err3"] }
++fs4 = "0.11"

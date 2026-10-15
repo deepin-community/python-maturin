@@ -1,0 +1,7 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -120,3 +120,3 @@
+ time = { version = "0.3.34", features = ["macros"] }
+-trycmd = "0.15.0"
++trycmd = "0.14"
+ which = "7.0.0"

@@ -1,0 +1,7 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -117,3 +117,3 @@
+ pretty_assertions = "1.3.0"
+-rstest = "0.22.0"
++rstest = "0.17"
+ rustversion = "1.0.9"
