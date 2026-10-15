@@ -1,3 +1,20 @@
+python-maturin (1.8.3-1deepin2) unstable; urgency=medium
+
+  * Drop the rstest dev-dependency
+    - rstest is only used by tests/run.rs and is never compiled by the
+      Debian build, but cargo still resolves dev-dependencies when
+      debian/rules regenerates Cargo.lock with "cargo generate-lockfile
+      --offline". UOS 25 would therefore have to ship librust-rstest-dev,
+      which in turn depends on librust-futures-timer-3+default-dev, a crate
+      that is not available in UOS 25 at all.
+    - Rewrite the two rstest-parametrised tests as plain #[test] functions
+      that iterate over the same pip/uv cases, so the test suite still
+      builds and covers the same ground.
+    - Drop librust-rstest-dev from Build-Depends, which also removes the
+      need to submit rust-futures-timer.
+
+ -- lichenggang <lichenggang@uniontech.com>  Thu, 15 Oct 2026 17:13:30 +0800
+
 python-maturin (1.8.3-1deepin1) unstable; urgency=medium
 
   * Relax and port to the crate set available in UOS 25

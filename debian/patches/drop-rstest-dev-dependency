@@ -1,0 +1,149 @@
+Description: Drop the rstest dev-dependency
+ `rstest` is only used by the integration tests in tests/run.rs, it is never
+ compiled by the Debian build (`dh_auto_test` runs `python3 -m unittest
+ discover`, and setup.py only builds the `maturin` binary).  However
+ `debian/rules` regenerates Cargo.lock with `cargo generate-lockfile
+ --offline`, and cargo resolves the complete dependency graph, dev-dependencies
+ included.  UOS 25 therefore has to ship `librust-rstest-dev`, which in turn
+ depends on `librust-futures-timer-3+default-dev`, a crate that does not exist
+ in UOS 25 at all.
+ .
+ Dropping the dev-dependency removes that whole chain, so `rust-futures-timer`
+ no longer has to be submitted either.  The two rstest-parametrised tests are
+ rewritten as plain `#[test]` functions that iterate over the same cases, so
+ the test suite still builds and covers the same ground.
+Author: lichenggang <lichenggang@uniontech.com>
+Forwarded: not-needed
+Last-Update: 2026-10-15
+
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -115,7 +115,6 @@ expect-test = "1.4.1"
+ fs4 = "0.8.4"
+ indoc = "2.0.3"
+ pretty_assertions = "1.3.0"
+-rstest = "0.17"
+ rustversion = "1.0.9"
+ time = { version = "0.3.34", features = ["macros"] }
+ trycmd = "0.14"
+--- a/tests/run.rs
++++ b/tests/run.rs
+@@ -6,10 +6,8 @@ use common::{
+ };
+ use expect_test::expect;
+ use maturin::pyproject_toml::SdistGenerator;
+-use rstest::rstest;
+ use std::env;
+ use std::path::Path;
+-use std::time::Duration;
+ use time::macros::datetime;
+ use which::which;
+ 
+@@ -200,58 +198,60 @@ fn develop_uniffi_multiple_binding_files
+     }
+ }
+ 
+-#[rstest]
+-#[timeout(Duration::from_secs(60))]
+-#[case(TestInstallBackend::Pip, "pip")]
+-#[case(TestInstallBackend::Uv, "uv")]
+-#[test]
+-fn develop_hello_world(#[case] backend: TestInstallBackend, #[case] name: &str) {
+-    // Only run uv tests on platforms that has wheel on PyPI or when uv binary is found
+-    if matches!(backend, TestInstallBackend::Uv)
+-        && !cfg!(any(
+-            target_os = "linux",
+-            target_os = "macos",
+-            target_os = "windows"
+-        ))
+-        && which("uv").is_err()
+-    {
+-        return;
+-    }
++#[test]
++fn develop_hello_world() {
++    for (backend, name) in [
++        (TestInstallBackend::Pip, "pip"),
++        (TestInstallBackend::Uv, "uv"),
++    ] {
++        // Only run uv tests on platforms that has wheel on PyPI or when uv binary is found
++        if matches!(backend, TestInstallBackend::Uv)
++            && !cfg!(any(
++                target_os = "linux",
++                target_os = "macos",
++                target_os = "windows"
++            ))
++            && which("uv").is_err()
++        {
++            continue;
++        }
+ 
+-    handle_result(develop::test_develop(
+-        "test-crates/hello-world",
+-        None,
+-        format!("develop-hello-world-{}", name).as_str(),
+-        false,
+-        backend,
+-    ));
++        handle_result(develop::test_develop(
++            "test-crates/hello-world",
++            None,
++            format!("develop-hello-world-{}", name).as_str(),
++            false,
++            backend,
++        ));
++    }
+ }
+ 
+-#[rstest]
+-#[timeout(Duration::from_secs(60))]
+-#[case(TestInstallBackend::Pip, "pip")]
+-#[case(TestInstallBackend::Uv, "uv")]
+ #[test]
+-fn develop_pyo3_ffi_pure(#[case] backend: TestInstallBackend, #[case] name: &str) {
+-    // Only run uv tests on platforms that has wheel on PyPI or when uv binary is found
+-    if matches!(backend, TestInstallBackend::Uv)
+-        && !cfg!(any(
+-            target_os = "linux",
+-            target_os = "macos",
+-            target_os = "windows"
+-        ))
+-        && which("uv").is_err()
+-    {
+-        return;
+-    }
++fn develop_pyo3_ffi_pure() {
++    for (backend, name) in [
++        (TestInstallBackend::Pip, "pip"),
++        (TestInstallBackend::Uv, "uv"),
++    ] {
++        // Only run uv tests on platforms that has wheel on PyPI or when uv binary is found
++        if matches!(backend, TestInstallBackend::Uv)
++            && !cfg!(any(
++                target_os = "linux",
++                target_os = "macos",
++                target_os = "windows"
++            ))
++            && which("uv").is_err()
++        {
++            continue;
++        }
+ 
+-    handle_result(develop::test_develop(
+-        "test-crates/pyo3-ffi-pure",
+-        None,
+-        format!("develop-pyo3-ffi-pure-{}", name).as_str(),
+-        false,
+-        backend,
+-    ));
++        handle_result(develop::test_develop(
++            "test-crates/pyo3-ffi-pure",
++            None,
++            format!("develop-pyo3-ffi-pure-{}", name).as_str(),
++            false,
++            backend,
++        ));
++    }
+ }
+ 
+ #[test]

@@ -13,3 +13,4 @@ relax-target-lexicon
 relax-fs4
 relax-pep440-pep508
 relax-and-port-to-uos25-crates
+drop-rstest-dev-dependency
